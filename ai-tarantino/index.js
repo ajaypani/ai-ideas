@@ -1,8 +1,11 @@
+import { process } from "./env"
 const setupTextarea = document.getElementById('setup-textarea') 
 const setupInputContainer = document.getElementById('setup-input-container')
 const movieBossText = document.getElementById('movie-boss-text')
-const apiKey = '<your api key>' // < replace with your open api key>
+
+//const apiKey = '<your api key>' // < replace with your open api key>
 const url = 'https://api.openai.com/v1/completions'
+const apiKey = process.env.OPENAI_API_KEY
 
 document.getElementById("send-btn").addEventListener("click", () => {
   if (setupTextarea.value) {
