@@ -4,3 +4,5 @@ ai-tarantino/env.js
 ai-tutor/.env
 *.bin
 *.pkl
+ai-tutor/data/data.txt
+ai-chatty/env.js
