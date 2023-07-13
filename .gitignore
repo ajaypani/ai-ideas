@@ -6,3 +6,5 @@ ai-tutor/.env
 *.pkl
 ai-tutor/data/data.txt
 ai-chatty/env.js
+ai-chatty/node_modules/*.*
+ai-chatty/node_modules/*.js
