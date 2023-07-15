@@ -1,36 +1,47 @@
-import {Configuration, OpenAIApi} from 'openai'
-import { process } from '/env'
+
+import { process } from './env'
+import { Configuration, OpenAIApi } from 'openai'
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY
-})
+  })
 
 const openai = new OpenAIApi(configuration)
-const chatbotConversation = document.getElementById('chatbot-conversation')
 
-// conversation Array Building 
+const chatbotConversation = document.getElementById('chatbot-conversation')
+ 
 const conversationArr = [
     {
-        role : 'system',
-        content : 'You are a highly knowledgable system. you can answer happily any Quesion.'
+        role: 'system',
+        content: 'You are a highly knowledgeable assistant that is always happy to help.'
     }
-]
-
+] 
+ 
 document.addEventListener('submit', (e) => {
     e.preventDefault()
-    const userInput = document.getElementById('user-input').value
-    conversationArr.push({
+    const userInput = document.getElementById('user-input')   
+    conversationArr.push({ 
         role: 'user',
         content: userInput.value
     })
-    console.log(conversationArr)
+    fetchReply()
     const newSpeechBubble = document.createElement('div')
     newSpeechBubble.classList.add('speech', 'speech-human')
     chatbotConversation.appendChild(newSpeechBubble)
-    newSpeechBubble.textContent = userInput
-    userInput = ''
+    newSpeechBubble.textContent = userInput.value
+    userInput.value = ''
     chatbotConversation.scrollTop = chatbotConversation.scrollHeight
 })
+
+async function fetchReply(){
+    const response = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: conversationArr  
+    })
+    conversationArr.push(response.data.choices[0].message)
+    renderTypewriterText(response.data.choices[0].message.content)
+    console.log(conversationArr)
+}
 
 function renderTypewriterText(text) {
     const newSpeechBubble = document.createElement('div')
